@@ -1,12 +1,14 @@
 const path = require('path');
 
-const express = require('express');
-const cors = require('cors');
 const dir = require('node-dir');
+const express = require('express');
+const bodyParser = require('body-parser');
+const cors = require('cors');
 
 const app = express();
+const jsonParser = bodyParser.json();
 
-app.use(cors());
+app.use(cors(), jsonParser);
 
 /* Dynamically add all API Routes */
 const apiRouter = express.Router();
