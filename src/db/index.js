@@ -3,7 +3,7 @@ const path = require('path');
 const dir = require('node-dir');
 const Sequelize = require('sequelize');
 
-const db = new Sequelize(process.env.POSTGRES_URL, {
+const db = new Sequelize(process.env.PGURL, {
   define: {
     timestamps: true
   }
