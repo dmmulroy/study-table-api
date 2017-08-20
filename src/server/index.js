@@ -5,21 +5,20 @@ const cors = require('cors');
 const dir = require('node-dir');
 
 const app = express();
-const router = express.Router();
 
 app.use(cors());
 
+/* Dynamically add all API Routes */
+const apiRouter = express.Router();
 const apiPath = path.join(__dirname, '..', 'routes', 'api');
 
 dir.files(apiPath, (err, files) => {
   if (err) throw err;
-  files.forEach(filePath => require(filePath)(router));
+  files.forEach(filePath => require(filePath)(apiRouter));
 });
 
-app.use('/api', router);
+app.use('/api', apiRouter);
 
-app.get('/hello-world', (req, res) => {
-  return res.status(200).json({ status: 200, message: 'Hello World' });
-});
+/* End API Routes */
 
 module.exports = app;
