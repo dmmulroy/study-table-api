@@ -15,7 +15,6 @@ const modelsDirPath = path.join(__dirname, '..', 'models');
 dir.subdirs(modelsDirPath, (err, subdirs) => {
   subdirs.forEach(subdir => {
     dir.files(subdir, (err, [filePath]) => {
-      console.log('filePath', filePath);
       const Model = require(filePath)(db, Sequelize);
       Model.sync();
     });
