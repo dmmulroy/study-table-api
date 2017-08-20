@@ -59,7 +59,10 @@ typings/
 
 # dotenv environment variables file
 # temporarily disabling to transfer empty env file to home computer
-#.env
+.env
 
 
 # End of https://www.gitignore.io/api/node
+
+# npm package.lock.json
+package-lock.json
