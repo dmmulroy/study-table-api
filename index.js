@@ -3,6 +3,7 @@ require('dotenv').config();
 const http = require('http');
 
 const app = require('./src/server');
+const db = require('./src/db');
 
 const server = http.createServer(app);
 
