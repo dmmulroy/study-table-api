@@ -7,7 +7,7 @@ const db = require('./src/db');
 
 const server = http.createServer(app);
 
-server.listen(process.env.API_PORT || 8000, err => {
+server.listen(process.env.API_PORT || 3001, err => {
   if (err) console.log('error starting server', err);
-  console.log('server running on port', process.env.API_PORT || 8000);
+  console.log('server running on port', process.env.API_PORT || 3001);
 });
