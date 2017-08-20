@@ -10,14 +10,12 @@ const db = new Sequelize(process.env.POSTGRES_URL, {
 });
 
 /* Load models and synchronize them */
-const modelsDirPath = path.join(__dirname, '..', 'models');
+const modelsPath = path.join(__dirname, '..', 'models');
 
-dir.subdirs(modelsDirPath, (err, subdirs) => {
-  subdirs.forEach(subdir => {
-    dir.files(subdir, (err, [filePath]) => {
-      const Model = require(filePath)(db, Sequelize);
-      Model.sync();
-    });
+dir.files(modelsPath, (err, files) => {
+  files.forEach(filePath => {
+    const Model = require(filePath)(db, Sequelize);
+    Model.sync();
   });
 });
 
