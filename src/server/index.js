@@ -11,10 +11,12 @@ app.use(cors());
 
 const apiPath = path.join(__dirname, '..', 'routes', 'api');
 
-// dir.files(apiPath, (err, files) => {
-//   if (err) throw err;
-//   files.forEach(filePath => require(filePath)(router));
-// });
+dir.files(apiPath, (err, files) => {
+  if (err) throw err;
+  files.forEach(filePath => require(filePath)(router));
+});
+
+app.use('/api', router);
 
 app.get('/hello-world', (req, res) => {
   return res.status(200).json({ status: 200, message: 'Hello World' });
