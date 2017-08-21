@@ -2,8 +2,7 @@ const bcrypt = require('bcrypt');
 
 const db = require('../../db');
 const User = db.model('user');
-
-const SALT_ROUNDS = 10;
+const { SALT_ROUNDS } = require('../../config');
 
 module.exports = {
   create: async (req, res, next) => {
