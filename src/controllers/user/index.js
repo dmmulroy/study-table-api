@@ -1,11 +1,16 @@
+const bcrypt = require('bcrypt');
+
 const db = require('../../db');
 const User = db.model('user');
+
+const SALT_ROUNDS = 10;
 
 module.exports = {
   create: async (req, res, next) => {
     try {
       const { email, password } = req.body;
-      const user = await User.create({ email, password });
+      const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
+      const user = await User.create({ email, password: hashedPassword });
 
       return res.json({ user });
     } catch (err) {
