@@ -62,7 +62,11 @@ module.exports = {
       const validPassword = await bcrypt.compare(password, user.password);
 
       if (validPassword) {
-        const token = jwt.sign({ sub: user.id }, config.JWT_SECRET);
+        const token = jwt.sign({ sub: user.id }, config.JWT_SECRET, {
+          issuer: config.JWT_ISSUER,
+          expiresIn: config.JWT_EXP
+        });
+
         return res.json({ token });
       }
 
