@@ -1,20 +1,21 @@
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 const db = require('../../db');
 const User = db.model('user');
-const { SALT_ROUNDS } = require('../../config');
+const config = require('../../config');
 
 module.exports = {
   create: async (req, res, next) => {
     try {
       const { email, password } = req.body;
-      const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
+      const hashedPassword = await bcrypt.hash(password, config.SALT_ROUNDS);
       const user = await User.create({ email, password: hashedPassword });
 
       return res.json({ user });
     } catch (err) {
       console.error(err);
-      return res.status(500);
+      return res.status(500).end();
     }
   },
 
@@ -25,7 +26,7 @@ module.exports = {
       return res.json(users);
     } catch (err) {
       console.error(err);
-      return res.status(500);
+      return res.status(500).end();
     }
   },
 
@@ -36,7 +37,7 @@ module.exports = {
       return res.json({ user });
     } catch (err) {
       console.error(err);
-      return res.status(500);
+      return res.status(500).end();
     }
   },
 
@@ -47,7 +48,28 @@ module.exports = {
       return res.json({ rowsDestroyed });
     } catch (err) {
       console.error(err);
-      return res.status(500);
+      return res.status(500).end();
+    }
+  },
+
+  login: async (req, res, next) => {
+    try {
+      const { email, password } = req.body;
+      const user = await User.findOne({ where: { email } });
+
+      if (!user) res.status(400).end();
+
+      const validPassword = await bcrypt.compare(password, user.password);
+
+      if (validPassword) {
+        const token = jwt.sign({ sub: user.id }, config.JWT_SECRET);
+        return res.json({ token });
+      }
+
+      return res.status(401).end();
+    } catch (err) {
+      console.error(err);
+      return res.status(500).end();
     }
   }
 };
