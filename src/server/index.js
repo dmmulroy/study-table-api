@@ -21,7 +21,7 @@ dir.files(authPath, (err, files) => {
 });
 
 app.use('/auth', authRouter);
-/* End API Routes */
+/* End Authentication Routes */
 
 /* Dynamically add all API Routes */
 const apiRouter = express.Router();
