@@ -5,6 +5,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 
+const authMiddleWare = require('../middleware/auth');
+
 const app = express();
 const jsonParser = bodyParser.json();
 
@@ -32,7 +34,7 @@ dir.files(apiPath, (err, files) => {
   files.forEach(filePath => require(filePath)(apiRouter));
 });
 
-app.use('/api', apiRouter);
+app.use('/api', authMiddleWare, apiRouter);
 /* End API Routes */
 
 module.exports = app;

@@ -8,9 +8,9 @@ const config = require('../../config');
 module.exports = {
   create: async (req, res, next) => {
     try {
-      const { email, password } = req.body;
+      const { email, password, firstName, lastName } = req.body;
       const hashedPassword = await bcrypt.hash(password, config.SALT_ROUNDS);
-      const user = await User.create({ email, password: hashedPassword });
+      const user = await User.create({ firstName, lastName, email, password: hashedPassword });
 
       return res.json({ user });
     } catch (err) {
