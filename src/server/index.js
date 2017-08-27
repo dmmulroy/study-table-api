@@ -10,7 +10,7 @@ const authMiddleWare = require('../middleware/auth');
 const app = express();
 const jsonParser = bodyParser.json();
 
-// Initialize middleware
+// Initialize common middleware
 app.use(cors(), jsonParser);
 
 /* Dynamically add all Authentication Routes */

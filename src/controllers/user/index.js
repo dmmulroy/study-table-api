@@ -10,9 +10,14 @@ module.exports = {
     try {
       const { email, password, firstName, lastName } = req.body;
       const hashedPassword = await bcrypt.hash(password, config.SALT_ROUNDS);
-      const user = await User.create({ firstName, lastName, email, password: hashedPassword });
+      const user = await User.create({
+        firstName,
+        lastName,
+        email,
+        password: hashedPassword
+      });
 
-      return res.json({ user });
+      return res.status(200).end();
     } catch (err) {
       console.error(err);
       return res.status(500).end();
@@ -67,7 +72,9 @@ module.exports = {
           expiresIn: config.JWT_EXP
         });
 
-        return res.json({ token });
+        delete user.dataValues.password;
+
+        return res.json({ token, user });
       }
 
       return res.status(401).end();
