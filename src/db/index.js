@@ -3,9 +3,9 @@ const path = require('path');
 const dir = require('node-dir');
 const Sequelize = require('sequelize');
 
-// const config = require('../config');
+const config = require('../config');
 
-const db = new Sequelize('postgres://study-table-dev:study-table-dev@localhost:5432/study_table', {
+const db = new Sequelize(config.PGURL, {
   define: {
     timestamps: true
   }
