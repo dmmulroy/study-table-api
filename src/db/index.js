@@ -6,19 +6,19 @@ const Sequelize = require('sequelize');
 const config = require('../config');
 
 const db = new Sequelize(config.PGURL, {
+  dialectOptions: {
+    ssl: true
+  },
   define: {
     timestamps: true
   }
 });
 
-/* Load models and synchronize them */
-const modelsPath = path.join(__dirname, '..', 'models');
+const User = require('../models/user')(db, Sequelize);
+const Organization = require('../models/organization')(db, Sequelize);
 
-dir.files(modelsPath, (err, files) => {
-  files.forEach(filePath => {
-    const Model = require(filePath)(db, Sequelize);
-    Model.sync();
-  });
-});
+User.belongsTo(Organization);
+
+db.sync({ force: true });
 
 module.exports = db;
