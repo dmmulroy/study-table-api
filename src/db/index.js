@@ -17,7 +17,9 @@ const db = new Sequelize(config.PGURL, {
 const User = require('../models/user')(db, Sequelize);
 const Organization = require('../models/organization')(db, Sequelize);
 
-User.belongsTo(Organization);
+// Associations
+User.belongsTo(Organization, { as: 'defaultOrganization' });
+User.belongsToMany(Organization, { through: 'user_organizations' });
 
 db.sync({ force: true });
 
