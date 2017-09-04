@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken');
 
 const db = require('../../db');
 const User = db.model('user');
+const Token = db.model('token');
 const config = require('../../config');
 
 module.exports = {
@@ -71,6 +72,10 @@ module.exports = {
           issuer: config.JWT_ISSUER,
           expiresIn: config.JWT_EXP
         });
+
+        const createdToken = await Token.create({ value: token });
+
+        user.update({ tokenId: createdToken.id });
 
         delete user.dataValues.password;
 
