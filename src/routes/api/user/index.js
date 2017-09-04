@@ -8,5 +8,8 @@ module.exports = router => {
     .get(UserController.findById)
     .delete(UserController.destroy);
 
-  router.route('/user').post(UserController.create);
+  router
+    .route('/user')
+    .get(UserController.findByToken)
+    .post(UserController.create);
 };

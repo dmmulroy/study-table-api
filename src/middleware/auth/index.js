@@ -1,10 +1,10 @@
-const jwt = require("jsonwebtoken");
+const jwt = require('jsonwebtoken');
 
-const config = require("../../config");
+const config = require('../../config');
 
 module.exports = (req, res, next) => {
   try {
-    const [_, token] = req.get("Authorization").split(" ");
+    const [_, token] = req.get('Authorization').split(' ');
     if (!token) return res.status(401).end();
 
     const decodedToken = jwt.verify(token, config.JWT_SECRET, {

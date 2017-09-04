@@ -47,6 +47,24 @@ module.exports = {
     }
   },
 
+  findByToken: async (req, res, next) => {
+    try {
+      const { decodedToken } = req;
+      const { sub: userId } = decodedToken;
+
+      const user = await User.findById(userId, {
+        attributes: ['firstName', 'lastName', 'email', 'defaultOrganizationId']
+      });
+
+      if (!user) return res.status(400).end();
+
+      return res.json({ user });
+    } catch (err) {
+      console.log('err', err);
+      return res.status(500).end();
+    }
+  },
+
   destroy: async (req, res, next) => {
     try {
       const { id } = req.params;
