@@ -16,10 +16,12 @@ const db = new Sequelize(config.PGURL, {
 
 const User = require('../models/user')(db, Sequelize);
 const Organization = require('../models/organization')(db, Sequelize);
+const Token = require('../models/token')(db, Sequelize);
 
 // Associations
 User.belongsTo(Organization, { as: 'defaultOrganization' });
 User.belongsToMany(Organization, { through: 'user_organizations' });
+Token.hasOne(User);
 
 db.sync({ force: true });
 

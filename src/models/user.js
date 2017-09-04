@@ -11,7 +11,8 @@ const User = (db, Sequelize) =>
       lastName: { type: Sequelize.STRING, allowNull: false },
       email: { type: Sequelize.STRING, allowNull: false, unique: true },
       password: { type: Sequelize.STRING, allowNull: false },
-      defaultOrganizationId: Sequelize.UUID
+      defaultOrganizationId: Sequelize.UUID,
+      tokenId: Sequelize.UUID
     },
     {
       indexes: [
