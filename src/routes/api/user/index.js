@@ -1,7 +1,13 @@
 const UserController = require('../../../controllers/user');
+// const OrganizationController = require('../../../controllers/organization');
 
 module.exports = router => {
   router.route('/users').get(UserController.findAll);
+
+  router
+    .route('/user')
+    .get(UserController.findByToken)
+    .post(UserController.create);
 
   router
     .route('/user/:id')
@@ -9,7 +15,6 @@ module.exports = router => {
     .delete(UserController.destroy);
 
   router
-    .route('/user')
-    .get(UserController.findByToken)
-    .post(UserController.create);
+    .route('/user/:id/organizations')
+    .get(UserController.findUserOrganizations);
 };
