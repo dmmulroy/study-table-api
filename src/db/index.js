@@ -20,7 +20,10 @@ const Token = require('../models/token')(db, Sequelize);
 
 // Associations
 User.belongsTo(Organization, { as: 'defaultOrganization' });
-User.belongsToMany(Organization, { through: 'user_organizations' });
+User.belongsToMany(Organization, {
+  through: 'UserOrganization',
+  foreignKey: 'userId'
+});
 Token.hasOne(User);
 
 db.sync({ force: true });

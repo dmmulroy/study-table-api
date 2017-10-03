@@ -3,7 +3,8 @@ const jwt = require('jsonwebtoken');
 
 const db = require('../../db');
 const User = db.model('user');
-const Token = db.model('token');
+const UserOrganization = db.model('UserOrganization');
+// const Token = db.model('token');
 const config = require('../../config');
 
 module.exports = {
@@ -71,6 +72,21 @@ module.exports = {
     }
   },
 
+  findUserOrganizations: async (req, res, next) => {
+    try {
+      const { id } = req.params;
+
+      const organizations = await UserOrganization.find({
+        where: { userId: id }
+      });
+
+      return res.json({ organizations });
+    } catch (err) {
+      console.log('err', err);
+      return res.status(500).end();
+    }
+  },
+
   destroy: async (req, res, next) => {
     try {
       const { id } = req.params;
@@ -97,9 +113,9 @@ module.exports = {
           expiresIn: config.JWT_EXP
         });
 
-        const createdToken = await Token.create({ value: token });
-
-        user.update({ tokenId: createdToken.id });
+        // const createdToken = await Token.create({ value: token });
+        //
+        // user.update({ tokenId: createdToken.id });
 
         delete user.dataValues.password;
 
