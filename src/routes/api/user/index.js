@@ -7,7 +7,7 @@ module.exports = router => {
   router
     .route('/user')
     .get(UserController.findByToken)
-    .post(UserController.create);
+    .put(UserController.create);
 
   router
     .route('/user/:id')
