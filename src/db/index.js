@@ -26,6 +26,6 @@ User.belongsToMany(Organization, {
 });
 Token.hasOne(User);
 
-db.sync({ force: true });
+db.sync({ force: false });
 
 module.exports = db;
