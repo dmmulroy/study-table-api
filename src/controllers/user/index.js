@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken');
 const db = require('../../db');
 const User = db.model('user');
 const UserOrganization = db.model('UserOrganization');
+const Organization = db.model('organization');
 // const Token = db.model('token');
 const config = require('../../config');
 
@@ -76,11 +77,27 @@ module.exports = {
     try {
       const { id } = req.params;
 
-      const organizations = await UserOrganization.find({
-        where: { userId: id }
+      const organizationIds = await UserOrganization.findAll({
+        where: { userId: id },
+        attributes: ['organizationId'],
+        raw: true
       });
 
-      return res.json({ organizations });
+      const organizations = await Organization.findAll({
+        where: {
+          id: {
+            in: organizationIds.map(({ organizationId }) => organizationId)
+          }
+        },
+        raw: true
+      });
+
+      const organizationsById = organizations.reduce((prev, curr) => {
+        prev[curr.id] = curr;
+        return prev;
+      }, {});
+
+      return res.json(organizationsById);
     } catch (err) {
       console.log('err', err);
       return res.status(500).end();
